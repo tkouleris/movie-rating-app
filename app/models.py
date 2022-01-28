@@ -1,5 +1,7 @@
-from app import db, bcrypt, login_manager
+from app import db, bcrypt, login_manager, app
 from flask_login import UserMixin
+
+
 
 # https://www.youtube.com/watch?v=BAOfjPuVby0
 
