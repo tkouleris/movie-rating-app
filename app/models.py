@@ -1,9 +1,6 @@
-from app import db, bcrypt, login_manager, app
+from app import db, bcrypt, login_manager
 from flask_login import UserMixin
 
-
-
-# https://www.youtube.com/watch?v=BAOfjPuVby0
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -21,3 +18,9 @@ class User(db.Model, UserMixin):
 
     def check_password_correction(self, attempted_password):
         return bcrypt.check_password_hash(self.password_hash, attempted_password)
+
+
+class Movie(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(length=255), nullable=False, unique=False)
+    year = db.Column(db.Integer(), nullable=True, unique=False)
