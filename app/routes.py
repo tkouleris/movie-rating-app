@@ -7,5 +7,11 @@ from app.models import Movie
 @login_manager.user_loader
 @app.route('/')
 def index_page():
-    movies = Movie.query.all()
+    movies = None
+    query = request.args.get('query')
+    if query is None:
+        movies = Movie.query.all()
+    else:
+        movies = Movie.query.filter(Movie.title.like("%" + query + "%")).all()
+
     return render_template('index.html', movies=movies)
