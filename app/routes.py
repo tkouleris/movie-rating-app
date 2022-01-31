@@ -15,3 +15,13 @@ def index_page():
         movies = Movie.query.filter(Movie.title.like("%" + query + "%")).all()
 
     return render_template('index.html', movies=movies)
+
+
+@app.route('/login', methods=['POST'])
+def login_action():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    print("LOGIN ACTION")
+    print(username)
+    print(password)
+    return redirect(url_for('index_page'))
