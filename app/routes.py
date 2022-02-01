@@ -1,6 +1,5 @@
 from flask import render_template, redirect, url_for, request
-from flask_login import login_user
-
+from flask_login import login_user, logout_user
 from app import app, db
 from app.forms import RegisterForm
 from app.models import Movie, User
@@ -42,3 +41,9 @@ def register_page():
         for err_msg in form.errors.values():
             print(err_msg)
     return render_template('register.html', form=form)
+
+
+@app.route('/logout', methods=['GET'])
+def logout_action():
+    logout_user()
+    return redirect(url_for('index_page'))

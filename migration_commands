@@ -1,0 +1,3 @@
+flask db init #only at first to initialize migrations folder
+flask db migrate -m "message" #to create migration files
+flask db upgrade #to create database changes

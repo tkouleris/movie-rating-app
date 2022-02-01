@@ -29,3 +29,10 @@ class Movie(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(length=255), nullable=False, unique=False)
     year = db.Column(db.Integer(), nullable=True, unique=False)
+
+
+class Ratings(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    movie_id = db.Column(db.Integer(), nullable=True, unique=False)
+    user_id = db.Column(db.Integer(), nullable=True, unique=False)
+    rating = db.Column(db.Float(), nullable=True, unique=False)
