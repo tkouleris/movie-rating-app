@@ -1,5 +1,7 @@
 from flask import render_template, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user
+from sqlalchemy import text
+
 from app import app, db
 from app.forms import RegisterForm
 from app.models import Movie, User, Ratings
@@ -13,6 +15,12 @@ def index_page():
         movies = Movie.query.all()
     else:
         movies = Movie.query.filter(Movie.title.like("%" + query + "%")).all()
+    for movie in movies:
+        sql = text("SELECT AVG(rating) AS AvgRate FROM ratings WHERE movie_id = "+str(movie.id))
+        result = db.engine.execute(sql)
+        results_as_dict = result.mappings().all()
+        movie.avgrate = results_as_dict[0].AvgRate
+
     return render_template('index.html', movies=movies)
 
 
