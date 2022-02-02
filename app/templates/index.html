@@ -21,6 +21,9 @@
                     <th scope="col">Movie</th>
                     <th scope="col">Year</th>
                     <th scope="col">Rating</th>
+                    {% if current_user.is_authenticated %}
+                        <th scope="col">My Rate</th>
+                    {% endif %}
                 </tr></thead>
 
             {% for movie in movies %}
@@ -29,10 +32,19 @@
                     <td>{{ movie.title }}</td>
                     <td>{{ movie.year }}</td>
                     <td> - </td>
+                    {% if current_user.is_authenticated %}
+                        {% include 'modals/rate.html' %}
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rateModal{{ movie.id }}">
+                            Rate
+                            </button>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </table>
         </div>
         <div class="col-2"></div>
     </div>
+
 {% endblock %}

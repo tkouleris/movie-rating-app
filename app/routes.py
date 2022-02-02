@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, request
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from app import app, db
 from app.forms import RegisterForm
-from app.models import Movie, User
+from app.models import Movie, User, Ratings
 
 
 @app.route('/', methods=['GET'])
@@ -13,7 +13,6 @@ def index_page():
         movies = Movie.query.all()
     else:
         movies = Movie.query.filter(Movie.title.like("%" + query + "%")).all()
-    print(movies)
     return render_template('index.html', movies=movies)
 
 
@@ -46,4 +45,15 @@ def register_page():
 @app.route('/logout', methods=['GET'])
 def logout_action():
     logout_user()
+    return redirect(url_for('index_page'))
+
+
+@app.route('/rate', methods=['POST'])
+def rate_movie_action():
+    movie_id = request.form.get('movie_id')
+    movie_rate = request.form.get('movie_rate')
+
+    rating = Ratings(user_id=current_user.id, movie_id=movie_id, rating=movie_rate)
+    db.session.add(rating)
+    db.session.commit()
     return redirect(url_for('index_page'))
