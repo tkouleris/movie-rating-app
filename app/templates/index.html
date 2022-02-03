@@ -21,6 +21,7 @@
                     <th scope="col">Movie</th>
                     <th scope="col">Year</th>
                     <th scope="col">Rating</th>
+                    <th scope="col">Your Rating</th>
                     {% if current_user.is_authenticated %}
                         <th scope="col">My Rate</th>
                     {% endif %}
@@ -32,6 +33,7 @@
                     <td>{{ movie.title }}</td>
                     <td>{{ movie.year }}</td>
                     <td>{{ movie.avgrate }}</td>
+                    <td>{{ movie.userRate }}</td>
                     {% if current_user.is_authenticated %}
                         {% include 'modals/rate.html' %}
                         <td>

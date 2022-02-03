@@ -20,6 +20,10 @@ def index_page():
         result = db.engine.execute(sql)
         results_as_dict = result.mappings().all()
         movie.avgrate = results_as_dict[0].AvgRate
+        userRate = Ratings.query.filter_by(user_id=current_user.id, movie_id=movie.id).first()
+        movie.userRate = " - "
+        if userRate:
+            movie.userRate = userRate.rating
 
     return render_template('index.html', movies=movies)
 
@@ -60,7 +64,8 @@ def logout_action():
 def rate_movie_action():
     movie_id = request.form.get('movie_id')
     movie_rate = request.form.get('movie_rate')
-
+    Ratings.query.filter_by(user_id=current_user.id, movie_id=movie_id).delete()
+    db.session.commit()
     rating = Ratings(user_id=current_user.id, movie_id=movie_id, rating=movie_rate)
     db.session.add(rating)
     db.session.commit()
