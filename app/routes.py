@@ -20,10 +20,11 @@ def index_page():
         result = db.engine.execute(sql)
         results_as_dict = result.mappings().all()
         movie.avgrate = results_as_dict[0].AvgRate
-        userRate = Ratings.query.filter_by(user_id=current_user.id, movie_id=movie.id).first()
-        movie.userRate = " - "
-        if userRate:
-            movie.userRate = userRate.rating
+        if current_user.is_authenticated:
+            userRate = Ratings.query.filter_by(user_id=current_user.id, movie_id=movie.id).first()
+            movie.userRate = " - "
+            if userRate:
+                movie.userRate = userRate.rating
 
     return render_template('index.html', movies=movies)
 
